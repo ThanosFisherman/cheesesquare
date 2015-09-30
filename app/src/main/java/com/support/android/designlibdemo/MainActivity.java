@@ -17,6 +17,7 @@
 package com.support.android.designlibdemo;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -29,24 +30,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO
- */
 public class MainActivity extends AppCompatActivity
 {
 
     private DrawerLayout mDrawerLayout;
+    ActionMenuView amv;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
@@ -76,8 +76,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        final Animation fadeIn = AnimationUtils.makeOutAnimation(this, true);
-        final Animation fadeOut = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
         fab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -89,12 +87,35 @@ public class MainActivity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        final Animation fadeIn = AnimationUtils.loadAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_out);
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                amv.getChildAt(amv.getChildCount() - 1).startAnimation(fadeIn);
+            }
+        }, 4000);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.sample_actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        for (int i = 0; i < toolbar.getChildCount(); ++i)
+        {
+            if (toolbar.getChildAt(i).getClass().getSimpleName().equals("ActionMenuView"))
+            {
+                amv = (ActionMenuView) toolbar.getChildAt(i);
+                break;
+            }
+        }
         return true;
     }
 
