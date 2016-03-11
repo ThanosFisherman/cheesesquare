@@ -113,7 +113,7 @@ public class CheeseListFragment extends Fragment
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-            view.setBackgroundResource(mBackground);
+           //view.setBackgroundResource(mBackground); I don't need this since I change the background from xml
             return new ViewHolder(view);
         }
 
