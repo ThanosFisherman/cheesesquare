@@ -16,6 +16,7 @@
 
 package com.support.android.designlibdemo;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -33,6 +34,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -122,6 +124,25 @@ public class MainActivity extends AppCompatActivity
             }
         }
         return true;
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode)
+        {
+            case Configuration.UI_MODE_NIGHT_NO:
+                Log.i("MainActivity", "Night mode is not active, we're in day time");
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                Log.i("MainActivity", "Night mode is active, we're at night!");
+                break;
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                Log.i("MainActivity", "We don't know what mode we're in, assume notnight");
+                break;
+        }
     }
 
     @Override
