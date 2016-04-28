@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     ActionMenuView amv;
     Toolbar toolbar;
+    Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity
             setupDrawerContent(navigationView);
         }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null)
         {
             setupViewPager(viewPager);
@@ -88,7 +89,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                CheeseListFragment fragment = (CheeseListFragment) adapter.instantiateItem(viewPager, 0);
+                fragment.updateListItems();
+                Snackbar.make(view, "notifyDataSetChanged() was called in recycler adapter", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -166,10 +169,13 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager)
     {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CheeseListFragment(), "Category 1");
         adapter.addFragment(new CheeseListFragment(), "Category 2");
         adapter.addFragment(new CheeseListFragment(), "Category 3");
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.requestTransparentRegion(viewPager);
+        viewPager.setCurrentItem(1);
         viewPager.setAdapter(adapter);
     }
 

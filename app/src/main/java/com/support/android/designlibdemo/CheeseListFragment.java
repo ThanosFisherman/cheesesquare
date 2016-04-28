@@ -38,19 +38,24 @@ import java.util.Random;
 
 public class CheeseListFragment extends Fragment
 {
-
+    private RecyclerView rv;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_cheese_list, container, false);
-        RecyclerView rv = (RecyclerView) view.findViewById(R.id.recyclerview);
+        rv = (RecyclerView) view.findViewById(R.id.recyclerview);
         setupRecyclerView(rv);
         return view;
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView)
+    public void updateListItems()
+    {
+        ((SimpleStringRecyclerViewAdapter) rv.getAdapter()).updateAdapter(getRandomSublist(Cheeses.sCheeseStrings, 17));
+    }
+
+    private void setupRecyclerView(final RecyclerView recyclerView)
     {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), getRandomSublist(Cheeses.sCheeseStrings, 30)));
@@ -113,7 +118,7 @@ public class CheeseListFragment extends Fragment
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-           //view.setBackgroundResource(mBackground); I don't need this since I change the background from xml
+            //view.setBackgroundResource(mBackground); I don't need this since I change the background from xml
             return new ViewHolder(view);
         }
 
@@ -137,6 +142,13 @@ public class CheeseListFragment extends Fragment
             });
 
             Glide.with(holder.mImageView.getContext()).load(Cheeses.getRandomCheeseDrawable()).fitCenter().into(holder.mImageView);
+        }
+
+        public void updateAdapter(final List<String> results)
+        {
+            this.mValues.clear();
+            this.mValues.addAll(results);
+            notifyDataSetChanged();
         }
 
         @Override
