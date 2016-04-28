@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
 {
     static
     {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
     }
 
     private DrawerLayout mDrawerLayout;
@@ -103,6 +103,13 @@ public class MainActivity extends AppCompatActivity
                 amv.getChildAt(amv.getChildCount() - 1).startAnimation(fadeIn);
             }
         }, 4000);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        getDelegate().applyDayNight();
     }
 
     @Override
