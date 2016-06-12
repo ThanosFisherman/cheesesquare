@@ -16,34 +16,45 @@
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_dashboard"
-            android:title="Home" />
+            android:title="Home"/>
         <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_event"
-            android:title="Messages" />
+            android:title="Messages"/>
         <item
             android:id="@+id/nav_friends"
             android:icon="@drawable/ic_headset"
-            android:title="Friends" />
+            android:title="Friends"/>
         <item
             android:id="@+id/nav_discussion"
             android:icon="@drawable/ic_forum"
-            android:title="Discussion" />
+            android:title="Discussion"/>
     </group>
 
     <item android:title="Sub items">
         <menu>
             <item
                 android:icon="@drawable/ic_dashboard"
-                android:title="Sub item 1" />
+                android:title="Sub item 1"/>
             <item
                 android:icon="@drawable/ic_forum"
-                android:title="Sub item 2" />
+                android:title="Sub item 2"/>
         </menu>
     </item>
+
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_done"
+            android:title="divider Item"/>
+    </group>
 
 </menu>
