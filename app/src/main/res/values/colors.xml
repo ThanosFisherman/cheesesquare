@@ -16,11 +16,13 @@
   -->
 
 <resources>
+    <color name="white">#FFFFFF</color>
     <color name="window_background">#FFF5F5F5</color>
     <color name="primaryColor">#673AB7</color>
     <color name="primaryDarkColor">#512DA8</color>
     <color name="accentColor">#FF4081</color>
 
+    <color name="listItemsColor">@color/white</color>
     <color name="pressed_wifisherlock">#CC0099CC</color>
     <color name="green_start">#99CC00</color>
     <color name="copy_tip_bg">#555555</color>

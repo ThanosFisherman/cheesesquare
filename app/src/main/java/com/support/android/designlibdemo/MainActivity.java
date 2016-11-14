@@ -103,7 +103,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run()
             {
-                amv.getChildAt(amv.getChildCount() - 1).startAnimation(fadeIn);
+                if (amv != null)
+                    amv.getChildAt(amv.getChildCount() - 1).startAnimation(fadeIn);
             }
         }, 4000);
     }

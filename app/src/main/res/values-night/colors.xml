@@ -17,4 +17,5 @@
 
 <resources>
     <color name="window_background">#313131</color>
+    <color name="listItemsColor">@color/gray</color>
 </resources>
