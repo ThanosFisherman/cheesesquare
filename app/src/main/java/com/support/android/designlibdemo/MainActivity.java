@@ -37,7 +37,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -62,50 +61,40 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null)
         {
             setupDrawerContent(navigationView);
         }
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        final ViewPager viewPager = findViewById(R.id.viewpager);
         if (viewPager != null)
         {
             setupViewPager(viewPager);
         }
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                CheeseListFragment fragment = (CheeseListFragment) adapter.instantiateItem(viewPager, 0);
-                fragment.updateListItems();
-                Snackbar.make(view, "notifyDataSetChanged() was called in recycler adapter", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
+        final FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> {
+            CheeseListFragment fragment = (CheeseListFragment) adapter.instantiateItem(viewPager, 0);
+            fragment.updateListItems();
+            Snackbar.make(view, "notifyDataSetChanged() was called in recycler adapter", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         });
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         final Animation fadeIn = AnimationUtils.loadAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_out);
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if (amv != null)
-                    amv.getChildAt(amv.getChildCount() - 1).startAnimation(fadeIn);
-            }
+        new Handler().postDelayed(() -> {
+            if (amv != null)
+                amv.getChildAt(amv.getChildCount() - 1).startAnimation(fadeIn);
         }, 4000);
     }
 
@@ -182,15 +171,10 @@ public class MainActivity extends AppCompatActivity
 
     private void setupDrawerContent(NavigationView navigationView)
     {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-        {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem)
-            {
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                return true;
-            }
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            menuItem.setChecked(true);
+            mDrawerLayout.closeDrawers();
+            return true;
         });
     }
 
@@ -199,12 +183,12 @@ public class MainActivity extends AppCompatActivity
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
 
-        public Adapter(FragmentManager fm)
+        Adapter(FragmentManager fm)
         {
             super(fm);
         }
 
-        public void addFragment(Fragment fragment, String title)
+        void addFragment(Fragment fragment, String title)
         {
             mFragments.add(fragment);
             mFragmentTitles.add(title);

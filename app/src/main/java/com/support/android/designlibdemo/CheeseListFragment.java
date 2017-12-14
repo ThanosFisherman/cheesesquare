@@ -19,6 +19,7 @@ package com.support.android.designlibdemo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,10 +43,10 @@ public class CheeseListFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_cheese_list, container, false);
-        rv = (RecyclerView) view.findViewById(R.id.recyclerview);
+        rv = view.findViewById(R.id.recyclerview);
         setupRecyclerView(rv);
         return view;
     }
@@ -91,8 +92,8 @@ public class CheeseListFragment extends Fragment
             {
                 super(view);
                 mView = view;
-                mImageView = (ImageView) view.findViewById(R.id.avatar);
-                mTextView = (TextView) view.findViewById(android.R.id.text1);
+                mImageView = view.findViewById(R.id.avatar);
+                mTextView = view.findViewById(android.R.id.text1);
             }
 
             @Override
@@ -128,17 +129,12 @@ public class CheeseListFragment extends Fragment
             holder.mBoundString = mValues.get(position);
             holder.mTextView.setText(mValues.get(position));
 
-            holder.mView.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, CheeseDetailActivity.class);
-                    intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
+            holder.mView.setOnClickListener(v -> {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, CheeseDetailActivity.class);
+                intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
 
-                    context.startActivity(intent);
-                }
+                context.startActivity(intent);
             });
 
             Glide.with(holder.mImageView.getContext()).load(Cheeses.getRandomCheeseDrawable()).fitCenter().into(holder.mImageView);
